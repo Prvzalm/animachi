@@ -1,36 +1,194 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# AniMachi - Anime Community Hub
 
-## Getting Started
+A production-ready full-stack web application for anime fans to share memes, edits, discussions, and connect with fellow otakus.
 
-First, run the development server:
+## 🚀 Features
+
+- **Home Page**: Trending anime edits/memes in responsive grid with likes and comments
+- **Community Page**: Create polls, discussions, and upload memes/edits (full CRUD)
+- **Watchlist Page**: Personal anime tracking (Planning, Watching, Completed, etc.)
+- **Meme/Edits Upload**: Media upload with Cloudinary integration
+- **Search & Filter**: Server-side search of anime titles from AniList API
+- **User Profiles**: Avatar, bio, uploads, and activity tracking
+- **Dark/Light Mode**: Tailwind + shadcn theme toggle
+- **Authentication**: NextAuth.js with email/password and Google OAuth
+- **API Integration**: AniList API for anime data and trending content
+- **Caching**: Redis (Upstash) for optimized API responses
+- **SEO**: next-seo for meta tags and structured data
+- **Testing**: Jest + React Testing Library
+- **Analytics**: Vercel Analytics integration
+
+## 🛠 Tech Stack
+
+- **Frontend**: Next.js 14 (App Router) + TypeScript
+- **UI**: TailwindCSS + shadcn/ui + Framer Motion
+- **Backend**: Next.js API Routes
+- **Database**: Supabase (PostgreSQL)
+- **Authentication**: NextAuth.js
+- **Validation**: Zod
+- **Media**: Cloudinary
+- **Caching**: Redis (Upstash)
+- **Deployment**: Vercel
+- **Testing**: Jest + React Testing Library
+
+## 📋 Prerequisites
+
+- Node.js 18+
+- pnpm (recommended) or npm
+- Supabase account
+- Google OAuth credentials (optional)
+- Cloudinary account (optional)
+
+## 🚀 Getting Started
+
+1. **Clone the repository**
+
+   ```bash
+   git clone <repository-url>
+   cd animachi
+   ```
+
+2. **Install dependencies**
+
+   ```bash
+   pnpm install
+   ```
+
+3. **Set up Supabase**
+
+   - Create a new project at [supabase.com](https://supabase.com)
+   - Run the SQL migration in `supabase/migrations/001_initial_schema.sql`
+   - Copy your project credentials
+
+4. **Configure environment variables**
+   Create `.env.local` in the root directory:
+
+   ```env
+   # Supabase
+   NEXT_PUBLIC_SUPABASE_URL=your-supabase-url
+   NEXT_PUBLIC_SUPABASE_ANON_KEY=your-supabase-anon-key
+   SUPABASE_SERVICE_ROLE_KEY=your-supabase-service-role-key
+   SUPABASE_DATABASE_URL=your-supabase-database-url
+
+   # NextAuth
+   NEXTAUTH_URL=http://localhost:3000
+   NEXTAUTH_SECRET=your-nextauth-secret
+
+   # OAuth (optional)
+   GOOGLE_CLIENT_ID=your-google-client-id
+   GOOGLE_CLIENT_SECRET=your-google-client-secret
+
+   # Cloudinary (optional)
+   CLOUDINARY_CLOUD_NAME=your-cloudinary-cloud-name
+   CLOUDINARY_API_KEY=your-cloudinary-api-key
+   CLOUDINARY_API_SECRET=your-cloudinary-api-secret
+
+   # Redis (optional)
+   REDIS_URL=your-redis-url
+
+   # AniList API
+   ANILIST_API_URL=https://graphql.anilist.co
+   ```
+
+5. **Run database migrations**
+
+   ```bash
+   # If using Supabase CLI
+   supabase db push
+   ```
+
+6. **Start the development server**
+
+   ```bash
+   pnpm run dev
+   ```
+
+7. **Open [http://localhost:3000](http://localhost:3000)**
+
+## 🧪 Testing
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+# Run tests
+pnpm test
+
+# Run tests with coverage
+pnpm test --coverage
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+## 🚀 Deployment
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+### Vercel Deployment
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+1. **Connect your repository to Vercel**
+2. **Add environment variables** in Vercel dashboard
+3. **Deploy**
 
-## Learn More
+### Manual Deployment
 
-To learn more about Next.js, take a look at the following resources:
+```bash
+# Build for production
+pnpm run build
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+# Start production server
+pnpm start
+```
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## 📁 Project Structure
 
-## Deploy on Vercel
+```
+animachi/
+├── app/                    # Next.js App Router
+│   ├── api/               # API routes
+│   ├── auth/              # Authentication pages
+│   ├── community/         # Community pages
+│   ├── profile/           # User profile pages
+│   └── watchlist/         # Watchlist pages
+├── components/            # Reusable UI components
+│   ├── ui/               # shadcn/ui components
+│   └── providers.tsx     # React providers
+├── lib/                   # Utility libraries
+│   ├── auth.ts           # NextAuth configuration
+│   ├── supabase.ts       # Supabase client
+│   └── utils.ts          # Helper functions
+├── supabase/              # Database migrations
+│   └── migrations/
+├── types/                 # TypeScript type definitions
+├── .env.local            # Environment variables
+├── tailwind.config.ts    # Tailwind configuration
+└── next.config.ts       # Next.js configuration
+```
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+## 🔧 Available Scripts
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+- `pnpm dev` - Start development server
+- `pnpm build` - Build for production
+- `pnpm start` - Start production server
+- `pnpm lint` - Run ESLint
+- `pnpm test` - Run tests
+
+## 🤝 Contributing
+
+1. Fork the repository
+2. Create a feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes (`git commit -m 'Add amazing feature'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
+
+## 📝 License
+
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
+
+## 🙏 Acknowledgments
+
+- [AniList](https://anilist.co/) for anime data
+- [Supabase](https://supabase.com/) for backend services
+- [Next.js](https://nextjs.org/) for the framework
+- [shadcn/ui](https://ui.shadcn.com/) for UI components
+
+## 📞 Support
+
+For support, email support@animachi.com or join our Discord community.
+
+---
+
+Built with ❤️ for anime fans worldwide

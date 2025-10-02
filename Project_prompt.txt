@@ -1,0 +1,41 @@
+Build a production-ready full-stack web application named "AniMachi" – an Anime Community Hub.
+
+Tech Stack:
+- Next.js 14 with App Router + TypeScript
+- TailwindCSS + shadcn/ui for UI components
+- Framer Motion for smooth animations
+- Prisma ORM with PostgreSQL for database
+- NextAuth.js for authentication (Email/Password + Google OAuth)
+- Zod for schema validation
+- Cloudinary integration for image/video optimization
+- UploadThing or built-in Next.js file upload for media
+- Redis (Upstash) for caching frequently fetched data
+- next-seo for SEO optimization
+- Jest + React Testing Library for unit testing
+- Vercel Analytics or Posthog for tracking
+- Deployment: Vercel (CI/CD enabled)
+
+Required Features:
+1. **Home Page**: Show trending anime edits/memes in a responsive grid (with likes, comments count).
+2. **Community Page**: Users can create polls, discussions, and upload memes/edits. (CRUD with Prisma).
+3. **Watchlist Page**: Logged-in users can add/remove anime to personal watchlist.
+4. **Meme/Edits Upload System**: Media upload with Cloudinary/UploadThing.
+5. **Search & Filter**: Server-side search of anime titles (from AniList/MyAnimeList API).
+6. **User Profile**: Avatar, bio, user’s uploads and activity.
+7. **Dark/Light Mode Toggle** with Tailwind + shadcn.
+8. **Authentication**: Secure login, JWT sessions, password hashing, OAuth login.
+9. **API Routes**: Server-side fetching from AniList API for top anime/trending data.
+10. **Caching**: Implement Redis caching for faster API responses.
+11. **SEO**: Use next-seo for meta tags and structured data.
+
+Code Quality Requirements:
+- Clean modular folder structure with separation of concerns.
+- Reusable UI components (shadcn/ui).
+- Type-safe APIs with Prisma + Zod validation.
+- Proper error handling and loading states.
+- Comment code where necessary for readability.
+
+Deliverables:
+- Full codebase with all required features implemented.
+- Production-ready configuration for deployment on Vercel.
+- Example test cases with Jest and React Testing Library.
