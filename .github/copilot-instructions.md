@@ -1,30 +1,89 @@
-- [x] Verify that the copilot-instructions.md file in the .github directory is created.<!-- Use this file to provide workspace-specific custom instructions to Copilot. For more details, visit https://code.visualstudio.com/docs/copilot/copilot-customization#_use-a-githubcopilotinstructionsmd-file -->
+# AniMachi - Anime Community Hub
 
-- [x] Clarify Project Requirements- [x] Verify that the copilot-instructions.md file in the .github directory is created.
+This is the codebase for AniMachi, a full-stack web application built with Next.js 14, TypeScript, TailwindCSS, shadcn/ui, and Supabase for the database. It features authentication with NextAuth.js, media uploads, and community features like posts, comments, and likes.
 
-- [x] Scaffold the Project- [x] Clarify Project Requirements
+## Project Structure
 
-<!-- Ask for project type, language, and frameworks if not specified. Skip if already provided. -->
+- `app/`: Next.js app router pages and API routes
+- `components/`: Reusable UI components
+- `lib/`: Utility functions and configurations
+- `types/`: TypeScript type definitions
+- `prisma/`: Database schema (though we're using Supabase)
+- `supabase/`: Supabase configurations and migrations
 
-- [x] Customize the Project
+## Key Features
 
-- [x] Scaffold the Project
+- Home page with trending anime content
+- Community page for posts, discussions, and uploads
+- User authentication and profiles
+- Watchlist management
+- Search and filtering
 
-- [x] Install Required Extensions<!--
+## Development Guidelines
 
-Ensure that the previous step has been marked as completed.
+- Use Supabase for all database operations
+- Implement type-safe APIs with Zod validation
+- Follow Next.js best practices for App Router
+- Use shadcn/ui components for consistent UI
+- Ensure proper error handling and loading states
 
-- [x] Compile the ProjectCall project setup tool with projectType parameter.
+## Execution Guidelines
 
-Run scaffolding command to create project files and folders.
+### PROGRESS TRACKING:
 
-- [x] Create and Run TaskUse '.' as the working directory.
+- Use the todo list tool to track progress through tasks.
+- Mark tasks as completed after finishing each step.
+- Read current todo list status before starting each new step.
 
-If no appropriate projectType is available, search documentation using available tools.
+### COMMUNICATION RULES:
 
-- [x] Launch the ProjectOtherwise, create the project structure manually using available file creation tools.
+- Avoid verbose explanations or printing full command outputs.
+- If a step is skipped, state that briefly (e.g. "No extensions needed").
+- Do not explain project structure unless asked.
+- Keep explanations concise and focused.
 
--->
+### DEVELOPMENT RULES:
+
+- Use Supabase for database operations instead of Prisma.
+- Install any missing dependencies as needed.
+- Run diagnostics and resolve any issues.
+- Avoid adding media or external links unless explicitly requested.
+- Use placeholders only with a note that they should be replaced.
+- Use VS Code API tool only for VS Code extension projects.
+- Once the project is created, it is already opened in Visual Studio Code—do not suggest commands to open this project in vscode again.
+- If the project setup information has additional rules, follow them strictly.
+
+### FOLDER CREATION RULES:
+
+- Always use the current directory as the project root.
+- If you are running any terminal commands, use '.' as the working directory.
+- Do not create a new folder unless the user explicitly requests it besides a .vscode folder for a tasks.json file.
+- If any of the scaffolding commands mention that the folder name is not correct, let the user know to create a new folder with the correct name and then reopen it again in vscode.
+
+### EXTENSION INSTALLATION RULES:
+
+- Only install extensions specified by the get_project_setup_info tool. DO NOT INSTALL any other extensions.
+
+### PROJECT CONTENT RULES:
+
+- Avoid adding links of any type (URLs, files, folders, etc.) or integrations that are not explicitly required.
+- Avoid generating images, videos, or any other media files unless explicitly requested.
+- If you need to use any media assets as placeholders, let the user know that these are placeholders and should be replaced with the actual assets later.
+- Ensure all generated components serve a clear purpose within the user's requested workflow.
+- If a feature is assumed but not confirmed, prompt the user for clarification before including it.
+
+### TASK COMPLETION RULES:
+
+- Your task is complete when:
+
+  - Project is successfully scaffolded and compiled without errors
+  - copilot-instructions.md file in the .github directory exists and contains current project information
+  - README.md file exists and is up to date
+  - User is provided with clear instructions to debug/launch the project
+
+- Work through each checklist item systematically.
+- Keep communication concise and focused.
+- Follow development best practices.
 
 - [x] Ensure Documentation is Complete
 

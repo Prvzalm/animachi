@@ -4,7 +4,7 @@ Tech Stack:
 - Next.js 14 with App Router + TypeScript
 - TailwindCSS + shadcn/ui for UI components
 - Framer Motion for smooth animations
-- Prisma ORM with PostgreSQL for database
+- Supabase for database
 - NextAuth.js for authentication (Email/Password + Google OAuth)
 - Zod for schema validation
 - Cloudinary integration for image/video optimization
@@ -17,7 +17,7 @@ Tech Stack:
 
 Required Features:
 1. **Home Page**: Show trending anime edits/memes in a responsive grid (with likes, comments count).
-2. **Community Page**: Users can create polls, discussions, and upload memes/edits. (CRUD with Prisma).
+2. **Community Page**: Users can create polls, discussions, and upload memes/edits. (CRUD with Supabase).
 3. **Watchlist Page**: Logged-in users can add/remove anime to personal watchlist.
 4. **Meme/Edits Upload System**: Media upload with Cloudinary/UploadThing.
 5. **Search & Filter**: Server-side search of anime titles (from AniList/MyAnimeList API).
