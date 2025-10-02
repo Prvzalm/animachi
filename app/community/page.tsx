@@ -3,7 +3,6 @@
 import { useEffect, useState } from "react";
 import { Post } from "@/types/post";
 import { PostCard } from "@/components/post-card";
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import {
   Select,
@@ -12,7 +11,7 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
-import { Plus, Search, Filter, Clock, Flame } from "lucide-react";
+import { Search, Filter, Clock, Flame } from "lucide-react";
 
 export default function CommunityPage() {
   const [posts, setPosts] = useState<Post[]>([]);
@@ -126,94 +125,141 @@ export default function CommunityPage() {
         </div>
       </section>
 
-      {/* Filters and Search */}
-      <section className="py-6 bg-slate-800/50 border-b border-slate-700">
-        <div className="container mx-auto px-4">
-          <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
-            <div className="flex flex-col sm:flex-row gap-4 items-center flex-1">
-              {/* Search */}
-              <div className="relative flex-1 max-w-md">
-                <Search className="absolute left-3 top-1/2 transform -translate-y-1/2 text-gray-400 w-4 h-4" />
-                <Input
-                  placeholder="Search posts..."
-                  value={searchQuery}
-                  onChange={(e) => setSearchQuery(e.target.value)}
-                  className="pl-10 bg-slate-800 border-slate-600 text-white placeholder-gray-400"
-                />
+      {/* Filters and Search - Seamless transition */}
+      <section className="py-8 bg-gradient-to-b from-purple-900/30 to-slate-900/80 relative">
+        <div className="absolute inset-0 bg-slate-900/20"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto">
+            <div className="bg-slate-800/60 backdrop-blur-sm rounded-2xl border border-slate-700/50 p-6 shadow-2xl">
+              <div className="flex flex-col md:flex-row gap-4 items-center justify-between">
+                <div className="flex flex-col sm:flex-row gap-4 items-center flex-1 w-full">
+                  {/* Search */}
+                  <div className="relative flex-1 max-w-md">
+                    <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 text-purple-300 w-5 h-5" />
+                    <Input
+                      placeholder="Search posts..."
+                      value={searchQuery}
+                      onChange={(e) => setSearchQuery(e.target.value)}
+                      className="pl-12 pr-4 py-3 bg-slate-700/50 border-slate-600/50 text-white placeholder-gray-400 rounded-xl focus:bg-slate-700/70 focus:border-purple-500/50 transition-all duration-300"
+                    />
+                  </div>
+
+                  {/* Filter */}
+                  <Select
+                    value={filter}
+                    onValueChange={(
+                      value: "all" | "MEME" | "EDIT" | "DISCUSSION"
+                    ) => setFilter(value)}
+                  >
+                    <SelectTrigger className="w-full sm:w-48 bg-slate-700/50 border-slate-600/50 text-white rounded-xl hover:bg-slate-700/70 transition-all duration-300">
+                      <Filter className="w-4 h-4 mr-2 text-purple-300" />
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-slate-800 border-slate-600 rounded-xl">
+                      <SelectItem
+                        value="all"
+                        className="text-white hover:bg-slate-700"
+                      >
+                        All Posts
+                      </SelectItem>
+                      <SelectItem
+                        value="MEME"
+                        className="text-white hover:bg-slate-700"
+                      >
+                        Memes
+                      </SelectItem>
+                      <SelectItem
+                        value="EDIT"
+                        className="text-white hover:bg-slate-700"
+                      >
+                        Edits
+                      </SelectItem>
+                      <SelectItem
+                        value="DISCUSSION"
+                        className="text-white hover:bg-slate-700"
+                      >
+                        Discussions
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+
+                  {/* Sort */}
+                  <Select
+                    value={sortBy}
+                    onValueChange={(value: "newest" | "popular") =>
+                      setSortBy(value)
+                    }
+                  >
+                    <SelectTrigger className="w-full sm:w-48 bg-slate-700/50 border-slate-600/50 text-white rounded-xl hover:bg-slate-700/70 transition-all duration-300">
+                      {sortBy === "popular" ? (
+                        <Flame className="w-4 h-4 mr-2 text-orange-400" />
+                      ) : (
+                        <Clock className="w-4 h-4 mr-2 text-purple-300" />
+                      )}
+                      <SelectValue />
+                    </SelectTrigger>
+                    <SelectContent className="bg-slate-800 border-slate-600 rounded-xl">
+                      <SelectItem
+                        value="newest"
+                        className="text-white hover:bg-slate-700"
+                      >
+                        Newest
+                      </SelectItem>
+                      <SelectItem
+                        value="popular"
+                        className="text-white hover:bg-slate-700"
+                      >
+                        Popular
+                      </SelectItem>
+                    </SelectContent>
+                  </Select>
+                </div>
               </div>
-
-              {/* Filter */}
-              <Select
-                value={filter}
-                onValueChange={(
-                  value: "all" | "MEME" | "EDIT" | "DISCUSSION"
-                ) => setFilter(value)}
-              >
-                <SelectTrigger className="w-40 bg-slate-800 border-slate-600 text-white">
-                  <Filter className="w-4 h-4 mr-2" />
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-600">
-                  <SelectItem value="all">All Posts</SelectItem>
-                  <SelectItem value="MEME">Memes</SelectItem>
-                  <SelectItem value="EDIT">Edits</SelectItem>
-                  <SelectItem value="DISCUSSION">Discussions</SelectItem>
-                </SelectContent>
-              </Select>
-
-              {/* Sort */}
-              <Select
-                value={sortBy}
-                onValueChange={(value: "newest" | "popular") =>
-                  setSortBy(value)
-                }
-              >
-                <SelectTrigger className="w-40 bg-slate-800 border-slate-600 text-white">
-                  {sortBy === "popular" ? (
-                    <Flame className="w-4 h-4 mr-2" />
-                  ) : (
-                    <Clock className="w-4 h-4 mr-2" />
-                  )}
-                  <SelectValue />
-                </SelectTrigger>
-                <SelectContent className="bg-slate-800 border-slate-600">
-                  <SelectItem value="newest">Newest</SelectItem>
-                  <SelectItem value="popular">Popular</SelectItem>
-                </SelectContent>
-              </Select>
             </div>
-
-            {/* Create Post Button */}
-            <Button className="bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white">
-              <Plus className="w-4 h-4 mr-2" />
-              Create Post
-            </Button>
           </div>
         </div>
       </section>
 
       {/* Posts Feed */}
-      <section className="py-8">
+      <section className="py-12 bg-gradient-to-b from-slate-900/80 to-slate-900">
         <div className="container mx-auto px-4">
           {filteredPosts.length === 0 ? (
-            <div className="text-center py-16">
-              <div className="w-16 h-16 bg-slate-800 rounded-full flex items-center justify-center mx-auto mb-4">
-                <Search className="w-8 h-8 text-gray-400" />
+            <div className="text-center py-20">
+              <div className="w-20 h-20 bg-gradient-to-br from-purple-500/20 to-pink-500/20 rounded-full flex items-center justify-center mx-auto mb-6 border border-purple-500/30">
+                <Search className="w-10 h-10 text-purple-300" />
               </div>
-              <h3 className="text-xl font-semibold text-white mb-2">
+              <h3 className="text-2xl font-bold text-white mb-3">
                 No posts found
               </h3>
-              <p className="text-gray-400">
+              <p className="text-gray-400 text-lg max-w-md mx-auto">
                 {searchQuery || filter !== "all"
-                  ? "Try adjusting your search or filters"
-                  : "Be the first to create a post!"}
+                  ? "Try adjusting your search or filters to find what you're looking for"
+                  : "Be the first to share something amazing with the community!"}
               </p>
             </div>
           ) : (
-            <div className="max-w-2xl mx-auto space-y-6">
-              {filteredPosts.map((post) => (
-                <PostCard key={post.id} post={post} />
-              ))}
+            <div className="max-w-3xl mx-auto">
+              <div className="mb-8 text-center">
+                <h2 className="text-2xl font-bold text-white mb-2">
+                  {filter === "all"
+                    ? "Latest Posts"
+                    : `${filter.charAt(0) + filter.slice(1).toLowerCase()}s`}
+                </h2>
+                <p className="text-gray-400">
+                  {filteredPosts.length} post
+                  {filteredPosts.length !== 1 ? "s" : ""} found
+                </p>
+              </div>
+              <div className="space-y-8">
+                {filteredPosts.map((post) => (
+                  <div
+                    key={post.id}
+                    className="transform hover:scale-[1.02] transition-all duration-300"
+                  >
+                    <PostCard post={post} />
+                  </div>
+                ))}
+              </div>
             </div>
           )}
         </div>

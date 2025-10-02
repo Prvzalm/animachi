@@ -93,3 +93,48 @@ export async function GET() {
     return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
   }
 }
+
+export async function POST(request: NextRequest) {
+  if (!supabase) {
+    return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
+  }
+
+  try {
+    const body = await request.json();
+    const { title, content, type, imageUrl } = body;
+
+    if (!content || !type) {
+      return NextResponse.json({ error: 'Content and type are required' }, { status: 400 });
+    }
+
+    if (!['MEME', 'EDIT', 'DISCUSSION'].includes(type)) {
+      return NextResponse.json({ error: 'Invalid post type' }, { status: 400 });
+    }
+
+    // For now, we'll use a placeholder author_id since we don't have authentication context
+    // In a real app, this would come from the session
+    const authorId = 'placeholder-user-id';
+
+    const { data, error } = await supabase
+      .from('posts')
+      .insert({
+        title: title || null,
+        content,
+        type,
+        image_url: imageUrl || null,
+        author_id: authorId,
+      })
+      .select()
+      .single();
+
+    if (error) {
+      console.error('Error creating post:', error);
+      return NextResponse.json({ error: 'Failed to create post' }, { status: 500 });
+    }
+
+    return NextResponse.json(data, { status: 201 });
+  } catch (error) {
+    console.error('Unexpected error creating post:', error);
+    return NextResponse.json({ error: 'Internal server error' }, { status: 500 });
+  }
+}

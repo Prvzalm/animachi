@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import { useRouter } from "next/navigation";
+import { signIn } from "next-auth/react";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -58,11 +59,14 @@ export default function SignUp() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-gray-50">
-      <Card className="w-full max-w-md">
+    <div className="min-h-screen bg-gradient-to-br from-slate-900 via-purple-900 to-slate-900 flex items-center justify-center">
+      <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_50%),radial-gradient(circle_at_80%_20%,rgba(255,119,198,0.1),transparent_50%)]"></div>
+      <Card className="w-full max-w-md relative z-10 bg-slate-800/90 backdrop-blur-sm border-slate-700">
         <CardHeader>
-          <CardTitle>Sign Up</CardTitle>
-          <CardDescription>Join the AniMachi community</CardDescription>
+          <CardTitle className="text-white">Sign Up</CardTitle>
+          <CardDescription className="text-gray-300">
+            Join the AniMachi community
+          </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
@@ -110,6 +114,16 @@ export default function SignUp() {
               {isLoading ? "Creating account..." : "Sign Up"}
             </Button>
           </form>
+
+          <div className="mt-4">
+            <Button
+              variant="outline"
+              className="w-full"
+              onClick={() => signIn("google", { callbackUrl: "/" })}
+            >
+              Sign up with Google
+            </Button>
+          </div>
 
           <div className="mt-4 text-center">
             <Link
