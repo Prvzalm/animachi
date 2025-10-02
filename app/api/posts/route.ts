@@ -1,4 +1,4 @@
-import { NextResponse } from 'next/server';
+const { NextResponse } = require('next/server');
 import { supabase } from '@/lib/supabase';
 import { Post } from '@/types/post';
 
@@ -94,7 +94,7 @@ export async function GET() {
   }
 }
 
-export async function POST(request: NextRequest) {
+export async function POST(request: Request) {
   if (!supabase) {
     return NextResponse.json({ error: 'Database not configured' }, { status: 500 });
   }
@@ -115,7 +115,8 @@ export async function POST(request: NextRequest) {
     // In a real app, this would come from the session
     const authorId = 'placeholder-user-id';
 
-    const { data, error } = await supabase
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    const { data, error } = await (supabase as any)
       .from('posts')
       .insert({
         title: title || null,

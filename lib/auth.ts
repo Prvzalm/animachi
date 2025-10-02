@@ -1,11 +1,19 @@
-import { NextAuthOptions } from "next-auth";
-import GoogleProvider from "next-auth/providers/google";
-import CredentialsProvider from "next-auth/providers/credentials";
-import { SupabaseAdapter } from "@auth/supabase-adapter";
-import { supabase } from "@/lib/supabase";
-import bcrypt from "bcryptjs";
+import { SupabaseAdapter } from "@auth/supabase-adapter"
+import { supabase } from "@/lib/supabase"
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const bcrypt = require("bcryptjs")
 
-export const authOptions: NextAuthOptions = {
+// Import providers using require to avoid module resolution issues
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const GoogleProvider = require("next-auth/providers/google").default
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const CredentialsProvider = require("next-auth/providers/credentials").default
+
+// Import session strategy
+// eslint-disable-next-line @typescript-eslint/no-require-imports
+const { SessionStrategy } = require("next-auth")
+
+export const authOptions = {
   adapter: (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
     ? SupabaseAdapter({
         url: process.env.NEXT_PUBLIC_SUPABASE_URL,
@@ -23,7 +31,8 @@ export const authOptions: NextAuthOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      async authorize(credentials) {
+      // eslint-disable-next-line @typescript-eslint/no-explicit-any
+      async authorize(credentials: any) {
         if (!credentials?.email || !credentials?.password || !supabase) {
           return null;
         }
@@ -59,16 +68,18 @@ export const authOptions: NextAuthOptions = {
     }),
   ],
   session: {
-    strategy: "jwt",
+    strategy: "jwt" as const,
   },
   callbacks: {
-    async jwt({ token, user }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async jwt({ token, user }: any) {
       if (user) {
         token.username = user.username;
       }
       return token;
     },
-    async session({ session, token }) {
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    async session({ session, token }: any) {
       if (session.user) {
         session.user.id = token.sub!;
         session.user.username = token.username;
