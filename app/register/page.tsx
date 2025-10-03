@@ -15,7 +15,7 @@ import {
 } from "@/components/ui/card";
 import toast from "react-hot-toast";
 
-export default function SignUp() {
+export default function Register() {
   const [formData, setFormData] = useState({
     email: "",
     password: "",
@@ -47,7 +47,7 @@ export default function SignUp() {
 
       if (response.ok) {
         toast.success("Account created successfully!");
-        router.push("/auth/signin");
+        router.push("/login");
       } else {
         const data = await response.json();
         toast.error(data.error || "An error occurred");
@@ -65,7 +65,7 @@ export default function SignUp() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_50%),radial-gradient(circle_at_80%_20%,rgba(255,119,198,0.1),transparent_50%)]"></div>
       <Card className="w-full max-w-md relative z-10 bg-slate-800/90 backdrop-blur-sm border-slate-700">
         <CardHeader>
-          <CardTitle className="text-white">Sign Up</CardTitle>
+          <CardTitle className="text-white">Register</CardTitle>
           <CardDescription className="text-gray-300">
             Join the AniMachi community
           </CardDescription>
@@ -113,7 +113,7 @@ export default function SignUp() {
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating account..." : "Sign Up"}
+              {isLoading ? "Creating account..." : "Register"}
             </Button>
           </form>
 
@@ -123,16 +123,16 @@ export default function SignUp() {
               className="w-full"
               onClick={() => signIn("google", { callbackUrl: "/" })}
             >
-              Sign up with Google
+              Register with Google
             </Button>
           </div>
 
           <div className="mt-4 text-center">
             <Link
-              href="/auth/signin"
+              href="/login"
               className="text-sm text-blue-600 hover:underline"
             >
-              Already have an account? Sign in
+              Already have an account? Login
             </Link>
           </div>
         </CardContent>

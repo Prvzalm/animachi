@@ -84,32 +84,58 @@ ALTER TABLE watchlist ENABLE ROW LEVEL SECURITY;
 ALTER TABLE polls ENABLE ROW LEVEL SECURITY;
 
 -- Create RLS policies (basic policies - you may want to customize these)
+-- Drop existing policies if they exist
+DROP POLICY IF EXISTS "Users can view own profile" ON users;
+DROP POLICY IF EXISTS "Users can view public profiles" ON users;
+DROP POLICY IF EXISTS "Users can update own profile" ON users;
+
 -- Users can read their own data and public profiles
 CREATE POLICY "Users can view own profile" ON users FOR SELECT USING (auth.uid() = id);
 CREATE POLICY "Users can view public profiles" ON users FOR SELECT USING (true);
 CREATE POLICY "Users can update own profile" ON users FOR UPDATE USING (auth.uid() = id);
 
 -- Posts are publicly readable
+DROP POLICY IF EXISTS "Posts are publicly readable" ON posts;
+DROP POLICY IF EXISTS "Authenticated users can create posts" ON posts;
+DROP POLICY IF EXISTS "Users can update own posts" ON posts;
+DROP POLICY IF EXISTS "Users can delete own posts" ON posts;
+
 CREATE POLICY "Posts are publicly readable" ON posts FOR SELECT USING (true);
 CREATE POLICY "Authenticated users can create posts" ON posts FOR INSERT WITH CHECK (auth.uid() = author_id);
 CREATE POLICY "Users can update own posts" ON posts FOR UPDATE USING (auth.uid() = author_id);
 CREATE POLICY "Users can delete own posts" ON posts FOR DELETE USING (auth.uid() = author_id);
 
 -- Comments are publicly readable
+DROP POLICY IF EXISTS "Comments are publicly readable" ON comments;
+DROP POLICY IF EXISTS "Authenticated users can create comments" ON comments;
+DROP POLICY IF EXISTS "Users can update own comments" ON comments;
+DROP POLICY IF EXISTS "Users can delete own comments" ON comments;
+
 CREATE POLICY "Comments are publicly readable" ON comments FOR SELECT USING (true);
 CREATE POLICY "Authenticated users can create comments" ON comments FOR INSERT WITH CHECK (auth.uid() = author_id);
 CREATE POLICY "Users can update own comments" ON comments FOR UPDATE USING (auth.uid() = author_id);
 CREATE POLICY "Users can delete own comments" ON comments FOR DELETE USING (auth.uid() = author_id);
 
 -- Likes require authentication
+DROP POLICY IF EXISTS "Authenticated users can view likes" ON likes;
+DROP POLICY IF EXISTS "Users can manage own likes" ON likes;
+
 CREATE POLICY "Authenticated users can view likes" ON likes FOR SELECT USING (auth.uid() IS NOT NULL);
 CREATE POLICY "Users can manage own likes" ON likes FOR ALL USING (auth.uid() = user_id);
 
 -- Watchlist is private to each user
+DROP POLICY IF EXISTS "Users can view own watchlist" ON watchlist;
+DROP POLICY IF EXISTS "Users can manage own watchlist" ON watchlist;
+
 CREATE POLICY "Users can view own watchlist" ON watchlist FOR SELECT USING (auth.uid() = user_id);
 CREATE POLICY "Users can manage own watchlist" ON watchlist FOR ALL USING (auth.uid() = user_id);
 
 -- Polls are publicly readable
+DROP POLICY IF EXISTS "Polls are publicly readable" ON polls;
+DROP POLICY IF EXISTS "Authenticated users can create polls" ON polls;
+DROP POLICY IF EXISTS "Users can update own polls" ON polls;
+DROP POLICY IF EXISTS "Users can delete own polls" ON polls;
+
 CREATE POLICY "Polls are publicly readable" ON polls FOR SELECT USING (true);
 CREATE POLICY "Authenticated users can create polls" ON polls FOR INSERT WITH CHECK (auth.uid() = author_id);
 CREATE POLICY "Users can update own polls" ON polls FOR UPDATE USING (auth.uid() = author_id);

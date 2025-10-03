@@ -1,8 +1,8 @@
 "use client";
 
 import { useState } from "react";
-import { useRouter } from "next/navigation";
 import { signIn } from "next-auth/react";
+import { useRouter } from "next/navigation";
 import Link from "next/link";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
@@ -15,49 +15,39 @@ import {
 } from "@/components/ui/card";
 import toast from "react-hot-toast";
 
-export default function SignUp() {
-  const [formData, setFormData] = useState({
-    email: "",
-    password: "",
-    name: "",
-    username: "",
-  });
+export default function Login() {
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
   const [isLoading, setIsLoading] = useState(false);
   const router = useRouter();
-
-  const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setFormData((prev) => ({
-      ...prev,
-      [e.target.name]: e.target.value,
-    }));
-  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setIsLoading(true);
 
     try {
-      const response = await fetch("/api/auth/signup", {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify(formData),
+      const result = await signIn("credentials", {
+        email,
+        password,
+        redirect: false,
       });
 
-      if (response.ok) {
-        toast.success("Account created successfully!");
-        router.push("/auth/signin");
+      if (result?.error) {
+        toast.error("Invalid credentials");
       } else {
-        const data = await response.json();
-        toast.error(data.error || "An error occurred");
+        toast.success("Successfully signed in!");
+        router.push("/");
       }
     } catch (error) {
-      console.error("Sign up error:", error);
-      toast.error("An error occurred during sign up");
+      console.error("Sign in error:", error);
+      toast.error("An error occurred during sign in");
     } finally {
       setIsLoading(false);
     }
+  };
+
+  const handleGoogleSignIn = () => {
+    signIn("google", { callbackUrl: "/" });
   };
 
   return (
@@ -65,55 +55,33 @@ export default function SignUp() {
       <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_40%,rgba(120,119,198,0.1),transparent_50%),radial-gradient(circle_at_80%_20%,rgba(255,119,198,0.1),transparent_50%)]"></div>
       <Card className="w-full max-w-md relative z-10 bg-slate-800/90 backdrop-blur-sm border-slate-700">
         <CardHeader>
-          <CardTitle className="text-white">Sign Up</CardTitle>
+          <CardTitle className="text-white">Login</CardTitle>
           <CardDescription className="text-gray-300">
-            Join the AniMachi community
+            Welcome back to AniMachi
           </CardDescription>
         </CardHeader>
         <CardContent>
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
               <Input
-                type="text"
-                name="name"
-                placeholder="Full Name"
-                value={formData.name}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div>
-              <Input
-                type="text"
-                name="username"
-                placeholder="Username"
-                value={formData.username}
-                onChange={handleChange}
-                required
-              />
-            </div>
-            <div>
-              <Input
                 type="email"
-                name="email"
                 placeholder="Email"
-                value={formData.email}
-                onChange={handleChange}
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
                 required
               />
             </div>
             <div>
               <Input
                 type="password"
-                name="password"
                 placeholder="Password"
-                value={formData.password}
-                onChange={handleChange}
+                value={password}
+                onChange={(e) => setPassword(e.target.value)}
                 required
               />
             </div>
             <Button type="submit" className="w-full" disabled={isLoading}>
-              {isLoading ? "Creating account..." : "Sign Up"}
+              {isLoading ? "Logging in..." : "Login"}
             </Button>
           </form>
 
@@ -121,18 +89,18 @@ export default function SignUp() {
             <Button
               variant="outline"
               className="w-full"
-              onClick={() => signIn("google", { callbackUrl: "/" })}
+              onClick={handleGoogleSignIn}
             >
-              Sign up with Google
+              Login with Google
             </Button>
           </div>
 
           <div className="mt-4 text-center">
             <Link
-              href="/auth/signin"
+              href="/register"
               className="text-sm text-blue-600 hover:underline"
             >
-              Already have an account? Sign in
+              Don&apos;t have an account? Sign up
             </Link>
           </div>
         </CardContent>

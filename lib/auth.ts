@@ -1,17 +1,8 @@
 import { SupabaseAdapter } from "@auth/supabase-adapter"
 import { supabase } from "@/lib/supabase"
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const bcrypt = require("bcryptjs")
-
-// Import providers using require to avoid module resolution issues
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const GoogleProvider = require("next-auth/providers/google").default
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const CredentialsProvider = require("next-auth/providers/credentials").default
-
-// Import session strategy
-// eslint-disable-next-line @typescript-eslint/no-require-imports
-const { SessionStrategy } = require("next-auth")
+import bcrypt from "bcryptjs"
+import GoogleProvider from "next-auth/providers/google"
+import CredentialsProvider from "next-auth/providers/credentials"
 
 export const authOptions = {
   adapter: (process.env.NEXT_PUBLIC_SUPABASE_URL && process.env.SUPABASE_SERVICE_ROLE_KEY)
@@ -31,27 +22,28 @@ export const authOptions = {
         email: { label: "Email", type: "email" },
         password: { label: "Password", type: "password" },
       },
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-      async authorize(credentials: any) {
+      async authorize(credentials: Record<"email" | "password", string> | undefined) {
         if (!credentials?.email || !credentials?.password || !supabase) {
           return null;
         }
 
         // For Supabase, we'll use RLS policies instead of direct queries
         // This is a simplified version - in production you'd want proper RLS
-        const { data: user, error } = await (supabase as any) // eslint-disable-line @typescript-eslint/no-explicit-any
+        const { data: user, error } = await supabase
           .from('users')
           .select('*')
           .eq('email', credentials.email)
           .single();
 
-        if (error || !user || !user.password) {
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        if (error || !user || !(user as any).password) {
           return null;
         }
 
         const isPasswordValid = await bcrypt.compare(
           credentials.password,
-          user.password
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          (user as any).password
         );
 
         if (!isPasswordValid) {
@@ -59,10 +51,16 @@ export const authOptions = {
         }
 
         return {
-          id: user.id,
-          email: user.email,
-          name: user.name,
-          username: user.username,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          id: (user as any).id,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          email: (user as any).email,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          name: (user as any).name,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          username: (user as any).username,
+          // eslint-disable-next-line @typescript-eslint/no-explicit-any
+          role: (user as any).role || 'user',
         };
       },
     }),
@@ -74,20 +72,27 @@ export const authOptions = {
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async jwt({ token, user }: any) {
       if (user) {
-        token.username = user.username;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        token.username = (user as any).username;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        token.role = (user as any).role;
       }
       return token;
     },
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
     async session({ session, token }: any) {
       if (session.user) {
-        session.user.id = token.sub!;
-        session.user.username = token.username;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (session.user as any).id = token.sub;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (session.user as any).username = token.username;
+        // eslint-disable-next-line @typescript-eslint/no-explicit-any
+        (session.user as any).role = token.role;
       }
       return session;
     },
   },
   pages: {
-    signIn: "/auth/signin",
+    signIn: "/login",
   },
 };

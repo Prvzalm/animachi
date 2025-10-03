@@ -278,6 +278,46 @@ export default function Home() {
         </div>
       </section>
 
+      {/* Contact Section */}
+      <section className="py-20 bg-slate-900/80">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto">
+            <div className="text-center mb-12">
+              <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
+                Get In Touch
+              </h2>
+              <p className="text-gray-300 text-lg">
+                Have questions or suggestions? We&apos;d love to hear from you!
+              </p>
+            </div>
+
+            <Card className="bg-slate-800/60 border-slate-700/50">
+              <CardContent className="p-8 text-center">
+                <div className="space-y-6">
+                  <div className="w-16 h-16 bg-gradient-to-r from-purple-500 to-pink-500 rounded-full flex items-center justify-center mx-auto mb-4">
+                    <MessageSquare className="w-8 h-8 text-white" />
+                  </div>
+                  <h3 className="text-xl font-semibold text-white mb-2">
+                    Ready to Connect?
+                  </h3>
+                  <p className="text-gray-300 mb-6">
+                    Join our community and share your thoughts, feedback, or
+                    just say hello! We&apos;re here to listen and help make your
+                    anime experience better.
+                  </p>
+                  <Link href="/contact">
+                    <Button className="px-8 py-3 bg-gradient-to-r from-purple-600 to-pink-600 hover:from-purple-700 hover:to-pink-700 text-white font-semibold rounded-lg transition-all duration-300">
+                      <MessageSquare className="w-4 h-4 mr-2" />
+                      Contact Us
+                    </Button>
+                  </Link>
+                </div>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
       {/* CTA Section */}
       <section className="py-20 bg-gradient-to-br from-purple-900/50 to-pink-900/50 relative overflow-hidden">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_50%_50%,rgba(120,119,198,0.1),transparent_70%)]"></div>

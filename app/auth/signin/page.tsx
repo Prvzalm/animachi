@@ -13,6 +13,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import toast from "react-hot-toast";
 
 export default function SignIn() {
   const [email, setEmail] = useState("");
@@ -32,13 +33,14 @@ export default function SignIn() {
       });
 
       if (result?.error) {
-        alert("Invalid credentials");
+        toast.error("Invalid credentials");
       } else {
+        toast.success("Successfully signed in!");
         router.push("/");
       }
     } catch (error) {
       console.error("Sign in error:", error);
-      alert("An error occurred during sign in");
+      toast.error("An error occurred during sign in");
     } finally {
       setIsLoading(false);
     }
